@@ -13,7 +13,94 @@ class StyleSchema {
 }
 
 class LegendToastr {
-  static List<LegendToastrBuilder> listBuilder = List();
+  static Map<String, LegendToastrBuilder> _listToastr = Map();
+  static OverlayState _overlayState;
+  static OverlayEntry _overlayEntry;
+
+  static Future<void> show(LegendToastrBuilder builder) async {
+    //print(builder.toString());
+    initOverlay(builder);
+
+    final key = DateTime.now().toIso8601String();
+
+    _overlayState.setState(() {
+      _listToastr[key] = builder;
+    });
+    Timer(Duration(milliseconds: 100), () {
+      _overlayState.setState(() => _listToastr[key]._isActive = true);
+    });
+
+    Timer(Duration(seconds: builder._second), () {
+      _overlayState.setState(() => _listToastr[key]._isActive = false);
+      Timer(Duration(milliseconds: 500), () {
+        _overlayState.setState(() => _listToastr.remove(key));
+      });
+
+      print(builder._message + " silindi");
+
+      if (_listToastr.isEmpty) {
+        Timer(Duration(milliseconds: 1000), () {
+          print("liste boş");
+          _overlayEntry.remove();
+          _overlayEntry = null;
+        });
+      }
+    });
+  }
+
+  static initOverlay(LegendToastrBuilder builder) {
+    if (_overlayEntry != null) {
+      return;
+    }
+
+    _overlayState = Overlay.of(builder.context);
+    _overlayEntry = OverlayEntry(
+      builder: (context) {
+        double topPadding = MediaQuery.of(builder.context).padding.top + 20;
+
+        return Positioned(
+            top: topPadding,
+            left: builder._padding.left,
+            right: builder._padding.right,
+            child: Column(
+              children: generatorMessageBox,
+            ));
+      },
+    );
+
+    _overlayState.insert(_overlayEntry);
+  }
+
+  static List<Widget> get generatorMessageBox {
+    List<Widget> list = [];
+
+    _listToastr.forEach((key, builder) {
+      StyleSchema style = getColor(builder._theme);
+      list.add(AnimatedOpacity(
+        opacity: builder._isActive ? 1 : 0,
+        duration: Duration(milliseconds: 300),
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 100),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+            elevation: 2,
+            color: style.bgColor,
+            child: ListTile(
+              leading: Icon(style.iconData, size: 25, color: style.textColor),
+              title: Text(builder._message,
+                  style: TextStyle(
+                      color: style.textColor,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16)),
+            ),
+          ),
+        ),
+      ));
+    });
+    return list.reversed.toList();
+  }
 
   static StyleSchema getColor(Style style) {
     switch (style) {
@@ -59,56 +146,6 @@ class LegendToastr {
         break;
     }
   }
-
-  static Future<void> show(LegendToastrBuilder builder) async {
-    //print(builder.toString());
-    listBuilder.add(builder);
-
-    OverlayState overlayState = Overlay.of(builder.context);
-    OverlayEntry overlayEntry = OverlayEntry(
-      builder: (context) {
-        int index = listBuilder.indexOf(builder);
-
-        double topPadding = builder._position == Position.TOP ? MediaQuery.of(builder.context).padding.top + 20 + (index * 60) : null;
-
-        double bottomPadding = builder._position == Position.BOTTOM ? (index * 60.0) : null;
-
-        StyleSchema style = getColor(builder._theme);
-
-        return AnimatedPositioned(
-            duration: Duration(microseconds: 500),
-            top: topPadding,
-            bottom: bottomPadding,
-            left: builder._padding.left,
-            right: builder._padding.right,
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
-              ),
-              elevation: 2,
-              color: style.bgColor,
-              child: ListTile(
-                leading: Icon(style.iconData, size: 25, color: style.textColor),
-                title: Text(builder._message, style: TextStyle(color: style.textColor, fontWeight: FontWeight.w700, fontSize: 16)),
-              ),
-            ));
-      },
-    );
-
-    print("listEntrys.size: " + listBuilder.length.toString());
-
-    overlayState.insert(overlayEntry);
-
-    Timer(Duration(seconds: builder._second), () {
-      overlayEntry.remove();
-      listBuilder.removeRange(0, 1);
-    });
-  }
-}
-
-enum Position {
-  TOP,
-  BOTTOM,
 }
 
 enum Style {
@@ -125,19 +162,18 @@ class LegendToastrBuilder {
   String _message;
   int _second = 5;
   EdgeInsets _padding = EdgeInsets.all(20);
-  Position _position = Position.BOTTOM;
   Style _theme = Style.INFO;
+  bool _isActive = false;
 
   LegendToastrBuilder(this.context);
 
   setMessage(String message) => this._message = message;
   setDuration(int second) => this._second = second;
-  setPosition(Position position) => this._position = position;
   setTheme(Style theme) => this._theme = theme;
   setPadding(EdgeInsets edgeInsets) => this._padding = edgeInsets;
 
   @override
   String toString() {
-    return "LegendToastr -> Message: '$_message', Second: $_second, Position: ${_position.toString()}, Theme: ${_theme.toString()}";
+    return "LegendToastr -> Message: '$_message', Second: $_second, Theme: ${_theme.toString()}";
   }
 }
