@@ -39,78 +39,66 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             OutlineButton(
-                borderSide: BorderSide(
-                    color: LegendToastr.getColor(Style.SUCCESS).bgColor),
+                borderSide: BorderSide(color: LegendToastr.getColor(Style.SUCCESS).bgColor),
                 child: Text("SUCCESS"),
                 onPressed: () {
                   final builder = LegendToastrBuilder(context)
                     ..setMessage("SUCCESS MESSAGE")
                     ..setTheme(Style.SUCCESS)
-                    ..setPadding(EdgeInsets.zero)
                     ..setDuration(durationSecond);
 
                   LegendToastr.show(builder);
                 }),
             OutlineButton(
-                borderSide: BorderSide(
-                    color: LegendToastr.getColor(Style.DANGER).bgColor),
+                borderSide: BorderSide(color: LegendToastr.getColor(Style.DANGER).bgColor),
                 child: Text("DANGER"),
                 onPressed: () {
                   final builder = LegendToastrBuilder(context)
                     ..setMessage("DANGER MESSAGE")
                     ..setTheme(Style.DANGER)
-                    ..setPadding(EdgeInsets.zero)
                     ..setDuration(durationSecond);
 
                   LegendToastr.show(builder);
                 }),
             OutlineButton(
-                borderSide: BorderSide(
-                    color: LegendToastr.getColor(Style.WARNING).bgColor),
+                borderSide: BorderSide(color: LegendToastr.getColor(Style.WARNING).bgColor),
                 child: Text("WARNING"),
                 onPressed: () {
                   final builder = LegendToastrBuilder(context)
                     ..setMessage("WARNING MESSAGE")
                     ..setTheme(Style.WARNING)
-                    ..setPadding(EdgeInsets.zero)
                     ..setDuration(durationSecond);
                   LegendToastr.show(builder);
                 }),
             OutlineButton(
-                borderSide: BorderSide(
-                    color: LegendToastr.getColor(Style.INFO).bgColor),
+                borderSide: BorderSide(color: LegendToastr.getColor(Style.INFO).bgColor),
                 child: Text("INFO"),
                 onPressed: () {
                   final builder = LegendToastrBuilder(context)
                     ..setMessage("INFO MESSAGE")
                     ..setTheme(Style.INFO)
-                    ..setPadding(EdgeInsets.zero)
                     ..setDuration(durationSecond);
 
                   LegendToastr.show(builder);
                 }),
             OutlineButton(
-                borderSide: BorderSide(
-                    color: LegendToastr.getColor(Style.LIGHT).bgColor),
+                borderSide: BorderSide(color: LegendToastr.getColor(Style.LIGHT).bgColor),
                 child: Text("LIGHT"),
                 onPressed: () {
                   final builder = LegendToastrBuilder(context)
                     ..setMessage("LIGHT MESSAGE")
                     ..setTheme(Style.LIGHT)
-                    ..setPadding(EdgeInsets.zero)
                     ..setDuration(durationSecond);
 
                   LegendToastr.show(builder);
                 }),
             OutlineButton(
-                borderSide: BorderSide(
-                    color: LegendToastr.getColor(Style.DARK).bgColor),
+                borderSide: BorderSide(color: LegendToastr.getColor(Style.DARK).bgColor),
                 child: Text("DARK"),
                 onPressed: () {
                   final builder = LegendToastrBuilder(context)
                     ..setMessage("DARK MESSAGE")
                     ..setTheme(Style.DARK)
-                    ..setPadding(EdgeInsets.zero)
                     ..setDuration(durationSecond);
 
                   LegendToastr.show(builder);

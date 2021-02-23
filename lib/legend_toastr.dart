@@ -13,33 +13,34 @@ class StyleSchema {
 }
 
 class LegendToastr {
+  static Duration get _animDuration => Duration(milliseconds: 400);
   static Map<String, LegendToastrBuilder> _listToastr = Map();
   static OverlayState _overlayState;
   static OverlayEntry _overlayEntry;
 
   static Future<void> show(LegendToastrBuilder builder) async {
     //print(builder.toString());
-    initOverlay(builder);
+    await initOverlay(builder);
 
     final key = DateTime.now().toIso8601String();
 
     _overlayState.setState(() {
       _listToastr[key] = builder;
     });
-    Timer(Duration(milliseconds: 100), () {
+    Timer(Duration(milliseconds: 200), () {
       _overlayState.setState(() => _listToastr[key]._isActive = true);
     });
 
     Timer(Duration(seconds: builder._second), () {
       _overlayState.setState(() => _listToastr[key]._isActive = false);
-      Timer(Duration(milliseconds: 500), () {
+      Timer(_animDuration, () {
         _overlayState.setState(() => _listToastr.remove(key));
       });
 
       print(builder._message + " silindi");
 
       if (_listToastr.isEmpty) {
-        Timer(Duration(milliseconds: 1000), () {
+        Timer(_animDuration, () {
           print("liste boş");
           _overlayEntry.remove();
           _overlayEntry = null;
@@ -60,8 +61,8 @@ class LegendToastr {
 
         return Positioned(
             top: topPadding,
-            left: builder._padding.left,
-            right: builder._padding.right,
+            left: 0,
+            right: 0,
             child: Column(
               children: generatorMessageBox,
             ));
@@ -75,12 +76,29 @@ class LegendToastr {
     List<Widget> list = [];
 
     _listToastr.forEach((key, builder) {
+      double padding = 0;
+      double width = MediaQuery.of(builder.context).size.width;
+      final orientation = MediaQuery.of(builder.context).orientation;
+
+      bool isTablet = MediaQuery.of(builder.context).size.shortestSide > 600;
+
+      if (isTablet) {
+        padding = width * 0.3;
+      } else {
+        if (orientation == Orientation.portrait) {
+          padding = 10;
+        } else {
+          padding = width * 0.1;
+        }
+      }
+
       StyleSchema style = getColor(builder._theme);
       list.add(AnimatedOpacity(
         opacity: builder._isActive ? 1 : 0,
-        duration: Duration(milliseconds: 300),
+        duration: _animDuration,
         child: AnimatedContainer(
-          duration: Duration(milliseconds: 100),
+          duration: _animDuration,
+          padding: EdgeInsets.symmetric(horizontal: builder._isActive ? (padding + 0) : (padding + 40)),
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
@@ -89,11 +107,7 @@ class LegendToastr {
             color: style.bgColor,
             child: ListTile(
               leading: Icon(style.iconData, size: 25, color: style.textColor),
-              title: Text(builder._message,
-                  style: TextStyle(
-                      color: style.textColor,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16)),
+              title: Text(builder._message, style: TextStyle(color: style.textColor, fontWeight: FontWeight.w700, fontSize: 16)),
             ),
           ),
         ),
@@ -161,7 +175,6 @@ class LegendToastrBuilder {
   final BuildContext context;
   String _message;
   int _second = 5;
-  EdgeInsets _padding = EdgeInsets.all(20);
   Style _theme = Style.INFO;
   bool _isActive = false;
 
@@ -170,7 +183,6 @@ class LegendToastrBuilder {
   setMessage(String message) => this._message = message;
   setDuration(int second) => this._second = second;
   setTheme(Style theme) => this._theme = theme;
-  setPadding(EdgeInsets edgeInsets) => this._padding = edgeInsets;
 
   @override
   String toString() {
