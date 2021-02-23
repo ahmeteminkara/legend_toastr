@@ -1,14 +1,41 @@
-# legend_toastr
+# Legend Toastr
 
-A new Flutter package project.
+This Flutter plugin displays sequential message pop-ups on the screen.
 
 ## Getting Started
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+```yaml
+dependencies:
+    legend_toastr:
+        git:
+            url: git://github.com/ahmeteminkara/legend_toastr.git
+```
+```dart
+import 'package:legend_toastr/legend_toastr.dart';
+```
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+## Usage
+```java
+
+
+final builder = LegendToastrBuilder(context)
+                ..setMessage("TOASTR MESSAGE")
+                ..setTheme(Style.SUCCESS) 
+                ..setDuration(5);
+
+LegendToastr.show(builder);
+
+
+Style {
+  SUCCESS,
+  DANGER,
+  WARNING,
+  INFO,
+  LIGHT,
+  DARK,
+}
+```
+
+## Media
+
+<kbd><img src="https://raw.githubusercontent.com/ahmeteminkara/legend_toastr/main/example/ss/gif.gif" width="350" /></kbd>

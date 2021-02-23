@@ -19,7 +19,6 @@ class LegendToastr {
   static OverlayEntry _overlayEntry;
 
   static Future<void> show(LegendToastrBuilder builder) async {
-    //print(builder.toString());
     await initOverlay(builder);
 
     final key = DateTime.now().toIso8601String();
@@ -37,11 +36,8 @@ class LegendToastr {
         _overlayState.setState(() => _listToastr.remove(key));
       });
 
-      print(builder._message + " silindi");
-
       if (_listToastr.isEmpty) {
-        Timer(_animDuration, () {
-          print("liste boş");
+        Timer(Duration(seconds: 1), () {
           _overlayEntry.remove();
           _overlayEntry = null;
         });
