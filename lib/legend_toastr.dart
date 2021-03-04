@@ -23,16 +23,20 @@ class LegendToastr {
 
     final key = DateTime.now().toIso8601String();
 
+    // ignore: invalid_use_of_protected_member
     _overlayState.setState(() {
       _listToastr[key] = builder;
     });
     Timer(Duration(milliseconds: 200), () {
+      // ignore: invalid_use_of_protected_member
       _overlayState.setState(() => _listToastr[key]._isActive = true);
     });
 
     Timer(Duration(seconds: builder._second), () {
+      // ignore: invalid_use_of_protected_member
       _overlayState.setState(() => _listToastr[key]._isActive = false);
       Timer(_animDuration, () {
+        // ignore: invalid_use_of_protected_member
         _overlayState.setState(() => _listToastr.remove(key));
       });
 

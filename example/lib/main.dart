@@ -38,8 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            OutlineButton(
-                borderSide: BorderSide(color: LegendToastr.getColor(Style.SUCCESS).bgColor),
+            OutlinedButton(
                 child: Text("SUCCESS"),
                 onPressed: () {
                   final builder = LegendToastrBuilder(context)
@@ -49,8 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   LegendToastr.show(builder);
                 }),
-            OutlineButton(
-                borderSide: BorderSide(color: LegendToastr.getColor(Style.DANGER).bgColor),
+            OutlinedButton(
                 child: Text("DANGER"),
                 onPressed: () {
                   final builder = LegendToastrBuilder(context)
@@ -60,8 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   LegendToastr.show(builder);
                 }),
-            OutlineButton(
-                borderSide: BorderSide(color: LegendToastr.getColor(Style.WARNING).bgColor),
+            OutlinedButton(
                 child: Text("WARNING"),
                 onPressed: () {
                   final builder = LegendToastrBuilder(context)
@@ -70,8 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ..setDuration(durationSecond);
                   LegendToastr.show(builder);
                 }),
-            OutlineButton(
-                borderSide: BorderSide(color: LegendToastr.getColor(Style.INFO).bgColor),
+            OutlinedButton(
                 child: Text("INFO"),
                 onPressed: () {
                   final builder = LegendToastrBuilder(context)
@@ -81,8 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   LegendToastr.show(builder);
                 }),
-            OutlineButton(
-                borderSide: BorderSide(color: LegendToastr.getColor(Style.LIGHT).bgColor),
+            OutlinedButton(
                 child: Text("LIGHT"),
                 onPressed: () {
                   final builder = LegendToastrBuilder(context)
@@ -92,8 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   LegendToastr.show(builder);
                 }),
-            OutlineButton(
-                borderSide: BorderSide(color: LegendToastr.getColor(Style.DARK).bgColor),
+            OutlinedButton(
                 child: Text("DARK"),
                 onPressed: () {
                   final builder = LegendToastrBuilder(context)
