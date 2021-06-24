@@ -19,7 +19,7 @@ class LegendToastr {
   static OverlayEntry _overlayEntry;
 
   static Future<void> show(LegendToastrBuilder builder) async {
-    await initOverlay(builder);
+    await _initOverlay(builder);
 
     final key = DateTime.now().toIso8601String();
 
@@ -49,7 +49,7 @@ class LegendToastr {
     });
   }
 
-  static initOverlay(LegendToastrBuilder builder) {
+  static _initOverlay(LegendToastrBuilder builder) {
     if (_overlayEntry != null) {
       return;
     }
@@ -64,7 +64,7 @@ class LegendToastr {
             left: 0,
             right: 0,
             child: Column(
-              children: generatorMessageBox,
+              children: _generatorMessageBox,
             ));
       },
     );
@@ -72,7 +72,7 @@ class LegendToastr {
     _overlayState.insert(_overlayEntry);
   }
 
-  static List<Widget> get generatorMessageBox {
+  static List<Widget> get _generatorMessageBox {
     List<Widget> list = [];
 
     _listToastr.forEach((key, builder) {
@@ -92,7 +92,7 @@ class LegendToastr {
         }
       }
 
-      StyleSchema style = getColor(builder._theme);
+      StyleSchema style = _getColor(builder._theme);
       list.add(AnimatedOpacity(
         opacity: builder._isActive ? 1 : 0,
         duration: _animDuration,
@@ -116,7 +116,7 @@ class LegendToastr {
     return list.reversed.toList();
   }
 
-  static StyleSchema getColor(Style style) {
+  static StyleSchema _getColor(Style style) {
     switch (style) {
       case Style.DANGER:
         return StyleSchema(Colors.red, Colors.white, Icons.error_rounded);
