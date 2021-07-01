@@ -82,13 +82,17 @@ class LegendToastr {
   static List<Widget> get _generatorMessageBox {
     List<Widget> list = [];
 
+    Orientation orientation = Orientation.portrait;
+    double width = 100;
+    bool isTablet = false;
+
     _listToastr.forEach((key, builder) {
       double padding = 0;
-      double width = MediaQuery.of(builder.context).size.width;
-      final orientation = MediaQuery.of(builder.context).orientation;
-
-      bool isTablet = MediaQuery.of(builder.context).size.shortestSide > 600;
-
+      try {
+        width = MediaQuery.of(builder.context).size.width;
+        orientation = MediaQuery.of(builder.context).orientation;
+        isTablet = MediaQuery.of(builder.context).size.shortestSide > 600;
+      } catch (e) {}
       if (isTablet) {
         padding = width * 0.3;
       } else {
