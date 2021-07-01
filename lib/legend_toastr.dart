@@ -64,7 +64,10 @@ class LegendToastr {
     _overlayState = Overlay.of(builder.context);
     _overlayEntry = OverlayEntry(
       builder: (context) {
-        double topPadding = MediaQuery.of(builder.context).padding.top + 20;
+        double topPadding = 20;
+        try {
+          topPadding += MediaQuery.of(builder.context).padding.top;
+        } catch (e) {}
 
         return Positioned(
             top: topPadding,
