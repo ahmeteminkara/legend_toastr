@@ -19,11 +19,8 @@ class LegendToastr {
   static OverlayEntry _overlayEntry;
 
   static Future<void> close() async {
-    _overlayState.setState(() {
-      _listToastr.clear();
-    });
+    _listToastr.clear();
     _overlayState.dispose();
-    _overlayEntry.remove();
     _overlayEntry.dispose();
     _overlayEntry = null;
   }
