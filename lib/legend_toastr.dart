@@ -18,6 +18,16 @@ class LegendToastr {
   static OverlayState _overlayState;
   static OverlayEntry _overlayEntry;
 
+  static Future<void> close() async {
+    _overlayState.setState(() {
+      _listToastr.clear();
+    });
+    _overlayState.dispose();
+    _overlayEntry.remove();
+    _overlayEntry.dispose();
+    _overlayEntry = null;
+  }
+
   static Future<void> show(LegendToastrBuilder builder) async {
     await _initOverlay(builder);
 
